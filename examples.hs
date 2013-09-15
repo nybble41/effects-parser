@@ -8,7 +8,7 @@ import Control.Applicative
 
 
 testParser1 :: Maybe [String]
-testParser1 = run $ do
+testParser1 = run $
    with (parse "a list of words") $ \p -> do
      parseMany p $ itemIf p isSpace
      parseMany p $ do
@@ -19,7 +19,7 @@ testParser1 = run $ do
 
 testParser2 :: IO ()
 testParser2 = runBase $ do
-   input <- base $ getLine
+   input <- base getLine
    maybeResult <- with (parse input) $ \p ->
       let expr    = sum
           sum     = leftAssoc product [('+', (+)), ('-', (-))]
@@ -32,8 +32,8 @@ testParser2 = runBase $ do
           char ch = itemIf p (==ch) <* spaces
           leftAssoc unit opPairs = do
              let ops = map (\(ch, op) -> char ch >> flip op <$> unit) opPairs
-             foldl (\a op -> op a) <$> unit <*> (parseMany p $ oneOf p $ ops)
+             foldl (\a op -> op a) <$> unit <*> parseMany p (oneOf p ops)
       in spaces *> expr <* parseEnd p
    case maybeResult of
       Nothing -> base $ putStrLn $ "Syntax error in expression"
-      Just n  -> base $ putStrLn $ "Result: " ++ (show (n :: Integer))
+      Just n  -> base $ putStrLn $ "Result: " ++ show (n :: Integer)

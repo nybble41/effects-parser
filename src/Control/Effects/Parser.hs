@@ -62,7 +62,7 @@ oneOf p (a:as) = join $ operation p $ \k -> return . Parser $ \cs f -> do
 -- Returns and consumes the next item from the input.
 -- Fails if there is no more input to be consumed.
 item :: AutoLift (Parser c m a) m n => Effect (Parser c m a) m -> n c
-item p = operation p $ \k -> return . Parser $ \cs f -> do
+item p = operation p $ \k -> return . Parser $ \cs f ->
    case cs of
       []    -> f
       (h:t) -> do { Parser r <- k h; r t f }
