@@ -1,9 +1,9 @@
 Control.Effects.Parser
 ======================
 
-Control.Effects.Parser is a parsing effect for the Control.Effects library.
+`Control.Effects.Parser` is a parsing effect for the `Control.Effects` library.
 
-Control.Effects is a Haskell library for programming with effects, like in the the [Eff language][Eff] by Andrej Bauer and Matija Pretnar. Effects can be used instead of monad transformers, they are designed to be easier to use and to define.
+`Control.Effects` is a Haskell library for programming with effects, like in the the [Eff language][Eff] by Andrej Bauer and Matija Pretnar. Effects can be used instead of monad transformers, they are designed to be easier to use and to define.
 
 Installation
 ------------
@@ -13,7 +13,7 @@ Installation
 Using the Parser effect
 -----------------------
 
-Here's an example how to use the state effect from `Control.Effects.Parser`.
+Here's an example how to parse a list of words using `Control.Effects.Parser`.
 
     import Control.Effects
     import Control.Effects.Parser
