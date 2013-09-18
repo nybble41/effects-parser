@@ -18,15 +18,13 @@ Here's an example how to parse a list of words using `Control.Effects.Parser`.
     import Control.Effects
     import Control.Effects.Parser
     import Data.Char
-    
+
     testParser1 :: Maybe [String]
-    testParser1 = run $ do
-       with (parse "a list of words") $ \p -> do
-         parseMany p $ itemIf p isSpace
+    testParser1 = run $
+       with (parse "a list of words  ") $ \p ->
          parseMany p $ do
-           word <- noBacktrack p $ parseMany1 p $ itemIf p (not . isSpace)
-           parseMany p $ itemIf p isSpace
-           return word
+           noBacktrack p $ parseMany  p $ itemIf p isSpace
+           noBacktrack p $ parseMany1 p $ itemIf p (not . isSpace)
 
 For more examples see [examples.hs](https://github.com/nybble41/effects-parser/blob/master/examples.hs).
 

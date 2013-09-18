@@ -9,12 +9,10 @@ import Control.Applicative
 
 testParser1 :: Maybe [String]
 testParser1 = run $
-   with (parse "a list of words") $ \p -> do
-     parseMany p $ itemIf p isSpace
+   with (parse "a list of words  ") $ \p ->
      parseMany p $ do
-       word <- noBacktrack p $ parseMany1 p $ itemIf p (not . isSpace)
-       parseMany p $ itemIf p isSpace
-       return word
+       noBacktrack p $ parseMany  p $ itemIf p isSpace
+       noBacktrack p $ parseMany1 p $ itemIf p (not . isSpace)
 
 
 testParser2 :: IO ()
