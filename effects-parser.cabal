@@ -1,5 +1,5 @@
 name:                effects-parser
-version:             0.1
+version:             0.2
 synopsis:            Parser Effect for the Control.Effects Library
 
 description:         Control.Effects.Parser is a parsing effect for the Control.Effects library.
@@ -8,7 +8,7 @@ description:         Control.Effects.Parser is a parsing effect for the Control.
                      .
                      See the home page for some example code.
 
-category:            Control, Monads
+category:            Control, Monads, Parsing
 license:             BSD3
 license-file:        LICENSE
 author:              Jesse McDonald
