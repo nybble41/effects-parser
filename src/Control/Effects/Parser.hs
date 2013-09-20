@@ -12,9 +12,11 @@ module Control.Effects.Parser (
    parseOpt,
    parseMany,
    parseMany1,
+   parseUpTo,
    parseOpt',
    parseMany',
-   parseMany1'
+   parseMany1',
+   parseUpTo'
 ) where
 
 import Control.Applicative
@@ -124,6 +126,12 @@ parseMany p f = oneOf p [parseMany1 p f, return []]
 parseMany1 :: AutoLift (Parser c m a) m n => Effect (Parser c m a) m -> n b -> n [b]
 parseMany1 p f = (:) <$> f <*> parseMany p f
 
+-- |Apply the given parser from zero to N times, and return a list of the results.
+parseUpTo :: AutoLift (Parser c m a) m n => Effect (Parser c m a) m -> Int -> n b -> n [b]
+parseUpTo p n f
+   | n <= 0    = return []
+   | otherwise = oneOf p [(:) <$> f <*> parseUpTo p (n-1) f, return []]
+
 -- |A non-greedy version of parseOpt which prefers to match Nothing.
 parseOpt' :: AutoLift (Parser c m a) m n => Effect (Parser c m a) m -> n b -> n (Maybe b)
 parseOpt' p f = oneOf p [return Nothing, Just <$> f]
@@ -135,3 +143,9 @@ parseMany' p f = oneOf p [return [], parseMany1' p f]
 -- |A non-greedy version of parseMany1 which matches as few times as possible (but at least once).
 parseMany1' :: AutoLift (Parser c m a) m n => Effect (Parser c m a) m -> n b -> n [b]
 parseMany1' p f = (:) <$> f <*> parseMany' p f
+
+-- |A non-greedy version of parseUpTo which matches as few times as possible.
+parseUpTo' :: AutoLift (Parser c m a) m n => Effect (Parser c m a) m -> Int -> n b -> n [b]
+parseUpTo' p n f
+   | n <= 0    = return []
+   | otherwise = oneOf p [return [], (:) <$> f <*> parseUpTo p (n-1) f]
